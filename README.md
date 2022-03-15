@@ -20,9 +20,16 @@ Repository for backend cohort - Thorium
 - Create a author document from request body.
   `Endpoint: BASE_URL/authors`
 
+
+  if(auhtorId) res.send("author is not valid )
+
+  let authorId =req.body.authorID
+
+  if(authorId!= find(authormodel(id{})))
+
 ### POST /blogs
 - Create a blog document from request body. Get authorId in request body only.
-- Make sure the authorId is a valid authorId by checking the author exist in the authors collection.
+- Make sure the authorId is a valid authorId by checking the author exist in the authors collection.if(auhtorId)
 - Return HTTP status 201 on a succesful blog creation. Also return the blog document. The response should be a JSON object like [this](#successful-response-structure) 
 - Create atleast 5 blogs for each author
 
@@ -30,28 +37,57 @@ Repository for backend cohort - Thorium
 
 ### GET /blogs
 - Returns all blogs in the collection that aren't deleted and are published
-- Return the HTTP status 200 if any documents are found. The response structure should be like [this](#successful-response-structure) 
+
+ ans let liveBlogs= await blogModel.find({isDeleted:true},{isPublished:false})
+- Return the HTTP status 200 if any documents are found. The response structure should be like 
+
+
+
+
+[this](#successful-response-structure) 
 - If no documents are found then return an HTTP status 404 with a response like [this](#error-response-structure) 
 - Filter blogs list by applying filters. Query param can have any combination of below filters.
-  - By author Id
+
+findMany({}:{}).populate
+  - By author Id    from query param 
   - By category
   - List of blogs that have a specific tag
   - List of blogs that have a specific subcategory
 example of a query url: blogs?filtername=filtervalue&f2=fv2
 
-### PUT /blogs/:blogId
+### PUT /blogs/:blogId  () we will make middleware here if(!author_id) res.send)
+
+
+//if(auhtorId) res.send("author is not valid )
+
+  //let authorId =req.body.authorID
+
+ // if(authorId!= find(authormodel(id{})))
+
+
 - Updates a blog by changing the its title, body, adding tags, adding a subcategory. (Assuming tag and subcategory received in body is need to be added)
+updateMany({}{}{}{})
+
 - Updates a blog by changing its publish status i.e. adds publishedAt date and set published to true
-- Check if the blogId exists (must have isDeleted false). If it doesn't, return an HTTP status 404 with a response body like [this](#error-response-structure)
+updateOne({$set:{isPublished:true} })
+- Check if the blogId exists (must have isDeleted false). If it doesn't, return an HTTP status 404 with a
+ response body like [this](#error-response-structure)
 - Return an HTTP status 200 if updated successfully with a body like [this](#successful-response-structure) 
 - Also make sure in the response you return the updated blog document. 
 
 ### DELETE /blogs/:blogId
+
+id ==req.param.blogId if(!)
+
+
+blogModel.updateMany({{_id:id},$set:{isDeleted:true}})
 - Check if the blogId exists( and is not deleted). If it does, mark it deleted and return an HTTP status 200 without any response body.
 - If the blog document doesn't exist then return an HTTP status of 404 with a body like [this](#error-response-structure) 
 
 ### DELETE /blogs?queryParams
 - Delete blog documents by category, authorid, tag name, subcategory name, unpublished
+
+yha {query }{and then update }
 - If the blog document doesn't exist then return an HTTP status of 404 with a body like [this](#error-response-structure)
 
 ## Phase II

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authorController = require("../controllers/authorController")
 const blogController = require("../controllers/blogController")
-
+const midwareController=require("../controllers/midwareController")
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
@@ -16,7 +16,7 @@ router.post("/createAuthor", authorController.createAuthor)
 router.post("/createBlog", blogController.createBlog)
 
 //  delete blog by query
-//router.delete("/deleteBlogByQuery", blogController.deleteBlogByQuery)
+router.delete("/deleteBlogByQuery", blogController.deleteBlogByQuery)
 
 // delete blog by path params
 router.delete("/deleteblog/:blogId", blogController.deleteBlogByPath)
@@ -31,6 +31,9 @@ router.put("/blogs/:blogId",blogController.updateBlog)
 router.get("/getBlogs" , blogController.getBlogs)
 //router.get("/getBlogsByFilter",blogController.getBlogsbyfilter)
 
+
+// login
+router.post("/authorLogin",midwareController.loginAuthor)
 
 
 module.exports = router;

@@ -57,7 +57,7 @@ const createBlog = async function (req, res) {
 const getBlogs = async function( req , res ) {
     try{
         const data = req.query
-        if(!data)  return res.status(400).send({error : "please enter data in query  "})
+        if(!data)  return res.status(400).send({error : "please enter data in query "})
 
 
     
@@ -116,7 +116,7 @@ const updateBlog=async function(req,res){
 
 
      // we used updateMany because we need to update many 
-    let updatedBlog=await blogModel.updateMany({_id:id},{$set:data},{new:true})
+    let updatedBlog=await blogModel.findOneAndUpdate({_id:id},{$set:data},{new:true})
 
     if(!updatedBlog) res.status(404).send({msg:"we are not  able to update it "})
 
@@ -159,12 +159,12 @@ const deleteBlogByPath = async function (req, res) {
 
 
 
-/*const deleteBlogByQuery = async function (req, res) {
+const deleteBlogByQuery = async function (req, res) {
     try {
         const data = req.query
         console.log(data)
 
-        if (!data) return res.status(400).send({ error: "Please enter some data to campare" })
+        if (!data) return res.status(400).send({ error: "Please enter some data to compare" })
 
         const result = await blogModel.updateMany(data, { $set: { isDeleted: false } }, { new: true })
 
@@ -178,11 +178,11 @@ const deleteBlogByPath = async function (req, res) {
     }
 }
 
-*/
+
 
 module.exports.createBlog = createBlog
-//module.exports.deleteBlogByQuery = deleteBlogByQuery
-exports.deleteBlogByPath = deleteBlogByPath
+module.exports.deleteBlogByQuery = deleteBlogByQuery
+module.exports.deleteBlogByPath = deleteBlogByPath
 module.exports.updateBlog = updateBlog
 module.exports.getBlogs = getBlogs
 //module.exports.getBlogsbyfilter=getBlogsByFilter
