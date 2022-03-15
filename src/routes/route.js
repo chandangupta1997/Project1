@@ -16,16 +16,21 @@ router.post("/createAuthor", authorController.createAuthor)
 router.post("/createBlog", blogController.createBlog)
 
 //  delete blog by query
-router.delete("/deleteBlogByQuery", blogController.deleteBlogByQuery)
+//router.delete("/deleteBlogByQuery", blogController.deleteBlogByQuery)
 
 // delete blog by path params
-router.delete("/blog/:blogId", blogController.deleteBlogByPath)
+router.delete("/deleteblog/:blogId", blogController.deleteBlogByPath)
 
 //  update blog
-router.put("/updateBlog/:blogId" , blogController.updateBlog)
+//router.put("/updateBlog/:blogId" , blogController.updateBlog)
+router.put("/updateBlog/:blogId",blogController.updateBlog)
+
+router.put("/blogs/:blogId",blogController.updateBlog)
 
 //  get blog
 router.get("/getBlogs" , blogController.getBlogs)
+//router.get("/getBlogsByFilter",blogController.getBlogsbyfilter)
+
 
 
 module.exports = router;
