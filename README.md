@@ -108,6 +108,9 @@ yha {query }{and then update }
 - Make sure that only the owner of the blogs is able to edit or delete the blog.
 - In case of unauthorized access return an appropirate error message.
 
+answer blogid mai authorid dhundho or use decoded authorId se match kro 
+if(!decodedtoken.authorid=blogModel.find(author_id))
+
 ## Testing 
 - To test these apis create a new collection in Postman named Project 1 Blogging 
 - Each api should have a new request in this collection

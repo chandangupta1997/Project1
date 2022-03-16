@@ -33,7 +33,7 @@ router.get("/getBlogs" , blogController.getBlogs)
 
 
 // login
-router.post("/authorLogin",midwareController.loginAuthor)
+router.post("/authorLogin",midwareController.loginAuthor,midwareController.Authentication)
 
 
 module.exports = router;

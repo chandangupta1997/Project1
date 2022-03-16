@@ -3,17 +3,13 @@ const authorModel=require("../models/authorModel")
 
 
 
-const loginAuthor = async function (req, res) {
-
-
-
-
-    try{
+const loginAuthor = async function (req, res,next) {
+try{
     let email = req.body.email;
     let password = req.body.password;
   
-    let user = await authorModel.findOne({ email: email, password: password });
-    if (!user) res.status(404).send({msg: "username or passowrd is incorrect or author not found"})
+    let author = await authorModel.findOne({ email: email, password: password });
+    if (!author) res.status(404).send({msg: "username or passowrd is incorrect or author not found"})
 
 
 
@@ -21,7 +17,7 @@ const loginAuthor = async function (req, res) {
 
     let token = jwt.sign(
         {
-          userId: user._id.toString(),  //payload
+          authorid: author._id.toString(),  //payload
           batch: "thorium",
           organisation: "FUnctionUp",
         },
@@ -32,6 +28,8 @@ const loginAuthor = async function (req, res) {
 
     res.send({ status: true, data: token });
 
+    next()
+
 
     }
 
@@ -41,9 +39,37 @@ const loginAuthor = async function (req, res) {
     }
 
 
+}
 
 
 
+
+const Authentication= async  function(req,res){
+
+
+    try{
+
+    let token = req.header["x-auth-key"]
+    if (!token) token = req.headers["x-Auth-Token"];
+    if(!token) res.send("sorry we are unable to recognize you  please login again ")
+
+
+
+    let decodedToken= jwt.verify(token,"Chandan-Key")
+
+    if(!decodedToken) 
+  
+    return res.send({ status: false, msg: "token is invalid" });
+
+    console.log(decodedToken)
+
+
+    }
+
+    catch(error)
+    {res.status(500).send(error.message)}
+
+}
 
 
 
@@ -58,14 +84,13 @@ const loginAuthor = async function (req, res) {
 
 
 
-
-
-
-}
-
-
-
 module.exports.loginAuthor=loginAuthor
+module.exports.Authentication=Authentication
+
+
+
+
+
   
 
 
