@@ -106,11 +106,14 @@ const updateBlog=async function(req,res){
     try{
 
     let data=req.body  //(Assuming tag and subcategory received in body is need to be added)
-    let id =req.params.blogId //we need blog id to update a partiular 
-    
-
     if(!data)res.send("enter data to update ")
+    let id =req.params.blogId //we need blog id to update a partiular 
     if(!id)res.send("blogId must be present in request param ")
+
+    let xyz= await blogModel.findById(id) 
+
+
+    if(req.user!=xyz.auhtorId){return res.status(401).send("you are not authorized ")}
 
 
 

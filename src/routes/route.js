@@ -16,10 +16,10 @@ router.post("/createAuthor", authorController.createAuthor)
 router.post("/createBlog", blogController.createBlog)
 
 //  delete blog by query
-router.delete("/deleteBlogByQuery", blogController.deleteBlogByQuery)
+router.delete("/deleteBlogByQuery",midwareController.Authorisation, blogController.deleteBlogByQuery)
 
 // delete blog by path params
-router.delete("/deleteblog/:blogId", blogController.deleteBlogByPath)
+router.delete("/deleteblog/:blogId",midwareController.Authorisation, blogController.deleteBlogByPath)
 
 //  update blog
 //router.put("/updateBlog/:blogId" , blogController.updateBlog)
