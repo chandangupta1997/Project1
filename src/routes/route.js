@@ -23,9 +23,9 @@ router.delete("/deleteblog/:blogId", blogController.deleteBlogByPath)
 
 //  update blog
 //router.put("/updateBlog/:blogId" , blogController.updateBlog)
-router.put("/updateBlog/:blogId",blogController.updateBlog)
+router.put("/updateBlog/:blogId",midwareController.Authorisation,blogController.updateBlog)
 
-router.put("/blogs/:blogId",blogController.updateBlog)
+//router.put("/blogs/:blogId",blogController.updateBlog)
 
 //  get blog
 router.get("/getBlogs" , blogController.getBlogs)
@@ -33,7 +33,13 @@ router.get("/getBlogs" , blogController.getBlogs)
 
 
 // login
-router.post("/authorLogin",midwareController.loginAuthor,midwareController.Authentication)
+router.post("/authorLogin",midwareController.loginAuthor)
+
+
+
+// authentication
+
+//router.post("/authentication",midwareController.Authentication)
 
 
 module.exports = router;

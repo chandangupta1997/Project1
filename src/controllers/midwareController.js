@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const authorModel=require("../models/authorModel")
+const blogModel=require("../models/blogModel")
 
 
 
@@ -28,7 +29,7 @@ try{
 
     res.send({ status: true, data: token });
 
-    next()
+    
 
 
     }
@@ -44,14 +45,14 @@ try{
 
 
 
-const Authentication= async  function(req,res){
+const Authentication= async  function(req,res,next){
 
 
     try{
 
-    let token = req.header["x-auth-key"]
-    if (!token) token = req.headers["x-Auth-Token"];
-    if(!token) res.send("sorry we are unable to recognize you  please login again ")
+    let token = req.headers["x-auth-key"]
+    //if (!token) token = req.headers["x-Auth-Key"];
+    if(!token) res.status(400).send("token must be present ")
 
 
 
@@ -59,9 +60,11 @@ const Authentication= async  function(req,res){
 
     if(!decodedToken) 
   
-    return res.send({ status: false, msg: "token is invalid" });
+    return res.status(400).send({ status: false, msg: "token is invalid" });
 
     console.log(decodedToken)
+
+    next()
 
 
     }
@@ -71,6 +74,47 @@ const Authentication= async  function(req,res){
 
 }
 
+
+
+const Authorisation = async function(req,res,next){
+
+
+    try{
+
+    let token = req.headers["x-auth-key"]
+    if (!token) token = req.headers["x-Auth-Key"];
+    if(!token) res.status(400).send("token must be present ")
+
+    let decodedToken= jwt.verify(token,"Chandan-Key")
+
+    if(!decodedToken) return res.send({ status: false, msg: "token is invalid" });
+    console.log(decodedToken)
+
+  
+    
+
+    let blogId=req.params.blogId
+    let blogDetails= await blogModel.find({_id:blogId})
+    if(!blogDetails) res.send("check param no such blog ")
+    let authorDetails= blogDetails.authorId
+    if(!authorDetails) res.send("no author for this blog ")
+
+    if(!authorDetails==decodedToken.author_id)
+    res.status(400).send({msg:" sorry you are not auhtorised to do that "})
+
+    next()
+    }
+
+    catch(error)
+    {res.status(500).send(error.message)}
+
+
+
+
+    
+
+
+}
 
 
     
@@ -86,6 +130,7 @@ const Authentication= async  function(req,res){
 
 module.exports.loginAuthor=loginAuthor
 module.exports.Authentication=Authentication
+module.exports.Authorisation=Authorisation
 
 
 
