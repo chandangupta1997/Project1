@@ -23,7 +23,7 @@ router.delete("/deleteblog/:blogId",midwareController.Authorisation, blogControl
 
 //  update blog
 //router.put("/updateBlog/:blogId" , blogController.updateBlog)
-router.put("/updateBlog/:blogId",midwareController.Authorisation,blogController.updateBlog)
+router.put("/updateBlog/:blogId",midwareController.authorisation,blogController.updateBlog)
 
 //router.put("/blogs/:blogId",blogController.updateBlog)
 
