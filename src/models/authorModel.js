@@ -17,7 +17,7 @@ const authorSchema = new mongoose.Schema( {
     },
     email: {
         type: String,
-        trim: true,
+        trim: true, //ignore space 
         lowercase: true,
         unique: true,
         required: true,

@@ -55,7 +55,7 @@ findMany({}:{}).populate
   - List of blogs that have a specific subcategory
 example of a query url: blogs?filtername=filtervalue&f2=fv2
 
-### PUT /blogs/:blogId  () we will make middleware here if(!author_id) res.send)
+### PUT /blogs/:blogId () we will make middleware here if(!author_id) res.send)
 
 
 //if(auhtorId) res.send("author is not valid )
