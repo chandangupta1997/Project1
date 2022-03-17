@@ -164,16 +164,22 @@ const deleteBlogByPath = async function (req, res) {
 
 const deleteBlogByQuery = async function (req, res) {
     try {
-        const data = req.query
-        console.log(data)
-
-        if (!data) return res.status(400).send({ error: "Please enter some data to compare" })
-
-        const result = await blogModel.updateMany(data, { $set: { isDeleted: false } }, { new: true })
-
-        if (!result) res.status(404).send({ error: " No data found" })
-
-        res.status(200).send({ data: result })
+        let authorIds = req.query.authorId
+        let categorys = req.query.category
+        let tag = req.query.tags
+        let subcategorys = req.query.subcategory
+        if (!authorIds && !categorys && !tag && !subcategorys) {
+          res.status(400).send({ status: false, msg: "quarys is required, BAD REQUEST" })
+        }
+        let authorDetails = await authorModel.findById({ _id: authorIds })
+        if (!authorDetails) {
+          res.status(404).send({ status: false, msg: "authorId not exist" })
+        } else {
+          let updatedDetails = await blogModel.findOneAndUpdate({$or: [ { authodId: authorIds },{ category: categorys }, { tags: { $in: [tag] } }, { subcategory: { $in: [subcategorys]}}]},{ isDeleted: true})
+          res.status(201).send({mag:"blog deleted "})
+          req.body.isDeletedAt = new Date()
+          console.log(updatedDetails)
+        }  
     }
     catch (err) {
         console.log(err)

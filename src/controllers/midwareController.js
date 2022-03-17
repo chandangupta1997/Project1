@@ -88,7 +88,7 @@ const Authentication = async function (req, res, next) {
 };*/
 
 
-const authorisation = async function (req, res, next) {
+const Authorisation = async function (req, res, next) {
   try {
       let token = req.headers["x-api-key"];
       let decodedtoken = jwt.verify(token, "secuiretyKeyToCheckToken")
@@ -119,4 +119,4 @@ const authorisation = async function (req, res, next) {
 module.exports.loginAuthor = loginAuthor;
 module.exports.Authentication = Authentication;
 module.exports.Authorisation = Authorisation;
-module.exports.authorisation=authorisation
+// module.exports.authorisation=authorisation
