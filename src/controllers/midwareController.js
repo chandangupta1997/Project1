@@ -60,32 +60,55 @@ const Authentication = async function (req, res, next) {
 
 const Authorisation = async function (req, res, next) {
   try {
-    let token = req.headers["x-auth-key"];
-    if (!token) token = req.headers["x-Auth-Key"];
-    if (!token) res.status(400).send("token must be present ");
 
-    let decodedToken = jwt.verify(token, "Chandan-Key");
 
-    if (!decodedToken)
-      return res.send({ status: false, msg: "token is invalid" });
-    console.log(decodedToken);
+    let token = req.headers["x-api-key"];
+        // console.log(token)
+        let blogId = req.params.blogId;
 
-    let blogId = req.params.blogId;
-    let blogDetails = await blogModel.find({ _id: blogId }); //find by id//use find one
-    if (!blogDetails) return res.send("check param no such blog ");
-    let authorDetails = await blogModel.find({ _id: blogId }).select({ authorId: 1, _id: 0 })
-    if (!authorDetails) res.send("no author for this blog ");
+        // console.log(blogId)
+        
+        let blogDetails = await blogModel.findById(blogId)
+        // console.log(blogDetails)
+        let authorId = blogDetails.authorId
+        // console.log(authorId)
+        let decodedToken = jwt.verify(token, "Chandan-Key");
+        if (!decodedToken)
+            return res.status(402).send({ status: false, msg: "token is invalid" });
+            // console.log(decodedToken)
+        let decoded = decodedToken.authorid
+        if (authorId != decoded) return res.status(403).send({ status: false, msg: "anthentication denied" })
+        next()
 
-    if (!authorDetails == decodedToken.author_id)
-    res.status(400).send("your are not authorised to do that ")
+    } catch (error){
+        console.log(error)
+        res.status(500).send({msg:error.message})
+    }
+
+    // let token = req.headers["x-auth-key"];
+    // if (!token) token = req.headers["x-Auth-Key"];
+    // if (!token) res.status(400).send("token must be present ");
+
+    // let decodedToken = jwt.verify(token, "Chandan-Key");
+
+    // if (!decodedToken)
+    //   return res.send({ status: false, msg: "token is invalid" });
+    // console.log(decodedToken);
+
+    // let blogId = req.params.blogId;
+    // let blogDetails = await blogModel.find({ _id: blogId }); //find by id//use find one
+    // if (!blogDetails) return res.send("check param no such blog ");
+
+    // let authorDetails = await blogModel.find({ _id: blogId }).select({ authorId: 1, _id: 0 })
+    // if (!authorDetails) res.send("no author for this blog ");
+
+    // if (!authorDetails == decodedToken.authorid)
+    // res.status(400).send("your are not authorised to do that ")
     
 
       
 
-    next();
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+  
 }
 
 

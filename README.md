@@ -6,6 +6,12 @@ Repository for backend cohort - Thorium
 ## Phase I
 
 ### Models
+
+
+
+for createdAt:{type:date,
+default:Datenow()}
+
 - Author Model
 ```
 { fname: { mandatory}, lname: {mandatory}, title: {mandatory, enum[Mr, Mrs, Miss]}, email: {mandatory, valid email, unique}, password: {mandatory} }
